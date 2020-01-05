@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
+import TodoListTemplate from './components/TodoListTemplate/TodoListTemplate'
 
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
-      <div>
-        hello world!
-      </div>
+      <TodoListTemplate>
+        템플릿 완성
+      </TodoListTemplate>
     )
   }
 }
