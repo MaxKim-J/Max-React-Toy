@@ -12,11 +12,14 @@ class TodoItemList extends Component {
     // map함수- 넘어온 todos배열을 컴포넌트 배열로 변환해준다
     // 배열을 렌더링할때 key값 필수임
     const todoList = todos.map(
-      ({ id, text, checked }) => (
+      ({ id, text, checked, color }) => (
         <TodoItem
           id={id}
           text={text}
           checked={checked}
+          color={color}
+          // 최상위에서 받아서 한번 더 내려주기!
+          // ref쓰면 해결 가능..?
           onToggle={onToggle}
           onRemove={onRemove}
           key={id}

@@ -2,13 +2,22 @@ import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate/TodoListTemplate'
 import Form from './components/TodoForm/TodoForm'
 import TodoItemList from './components/TodoItemList/TodoItemList';
+import TodoPalette from './components/TodoPalette/TodoPalette';
+
 
 class App extends Component {
-  id = 3
-
+  id = 0
+  //이래도 되는걸까
   state = {
     input: '',
-    todos: []
+    color: '',
+    todos: [],
+    colorArr: [
+      { id: 0, colorNum: '#343a40' },
+      { id: 1, colorNum: '#f03e3e' },
+      { id: 2, colorNum: '#12b886' },
+      { id: 3, colorNum: '#228ae6' }
+    ]
   }
   handleChange = (e) => {
     this.setState({
@@ -17,7 +26,7 @@ class App extends Component {
   }
 
   handleCreate = () => {
-    const { input, todos } = this.state;
+    const { input, todos, color } = this.state;
     this.setState({
       // form에 바인딩될 input의 값을 비우고
       input: '',
@@ -27,10 +36,12 @@ class App extends Component {
       todos: todos.concat({
         id: this.id++,
         text: input,
-        checked: false
+        color: color,
+        checked: false,
       })
     });
   }
+
 
   handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -45,10 +56,8 @@ class App extends Component {
     // todos 배열을 복사 -> 배열을 그 자체를 건들면 안됨!!!!
     const nextTodos = [...todos];
     // 복사된 todos배열의 해당 index값 안의 객체의 checked 속성을 바꿈
-    nextTodos[index] = {
-      ...selected,
-      checked: !selected.checked
-    };
+    console.log(nextTodos);
+    nextTodos[index].checked = !(selected.checked)
     // state 업데이트
     this.setState({
       todos: nextTodos
@@ -63,19 +72,31 @@ class App extends Component {
     });
   }
 
+  handleColor = (id) => {
+    const { colorArr } = this.state;
+    this.setState({
+      color: colorArr[id].colorNum
+    })
+    console.log(id)
+  }
+
   render() {
-    const { input, todos } = this.state;
+    const { input, todos, colorArr, color } = this.state;
     const {
       handleChange,
       handleCreate,
       handleKeyPress,
       handleToggle,
       handleRemove,
+      handleColor,
     } = this;
     return (
-      <TodoListTemplate form={(
+      <TodoListTemplate palette={(
+        <TodoPalette colorArr={colorArr} onColor={handleColor} />
+      )} form={(
         <Form
           value={input}
+          color={color}
           onKeyPress={handleKeyPress}
           onChange={handleChange}
           onCreate={handleCreate}

@@ -1,0 +1,25 @@
+
+.todo-palette{
+  background-color: #F1F3F5;
+}
+
+.color-cubes {
+  display: flex;
+  justify-content: center;
+}
+
+.color-cube {
+  margin: 20px 10px;
+  width: 35px;
+  height: 35px;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.color-cube-selected {
+  opacity: 1;
+}
+
+.color-cube:hover {
+  opacity: 1;
+}
