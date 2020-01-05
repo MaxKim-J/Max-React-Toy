@@ -5,6 +5,7 @@ class TodoItemList extends Component {
   render() {
     const { todos, onToggle, onRemove } = this.props;
     // map함수- 넘어온 todos배열을 컴포넌트 배열로 변환해준다
+    // 배열을 렌더링할때 key값 필수임
     const todoList = todos.map(
       ({ id, text, checked }) => (
         <TodoItem

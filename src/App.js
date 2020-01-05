@@ -19,6 +19,7 @@ class App extends Component {
       input: e.target.value
     });
   }
+
   handleCreate = () => {
     const { input, todos } = this.state;
     this.setState({
@@ -40,13 +41,40 @@ class App extends Component {
       this.handleCreate();
     }
   }
+  handleToggle = (id) => {
+    const { todos } = this.state;
+    // 파라미터로 받은 id를 가지고 몇번재 아이템인지 찾기
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index];
+    // todos 배열을 복사 -> 배열을 그 자체를 건들면 안됨!!!!
+    const nextTodos = [...todos];
+    // 복사된 todos배열의 해당 index값 안의 객체의 checked 속성을 바꿈
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+    // state 업데이트
+    this.setState({
+      todos: nextTodos
+    });
+  }
+
+  handleRemove = (id) => {
+    const { todos } = this.state;
+    this.setState({
+      // 파라미터로 받아온 id를 가지고있지 않은 배열을 새로 생성
+      todos: todos.filter(todo => todo.id !== id)
+    });
+  }
 
   render() {
     const { input, todos } = this.state;
     const {
       handleChange,
       handleCreate,
-      handleKeyPress
+      handleKeyPress,
+      handleToggle,
+      handleRemove,
     } = this;
     return (
       <TodoListTemplate form={(
@@ -57,7 +85,7 @@ class App extends Component {
           onCreate={handleCreate}
         />
       )}>
-        <TodoItemList todos={todos} />
+        <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove} />
       </TodoListTemplate>
     )
   }
