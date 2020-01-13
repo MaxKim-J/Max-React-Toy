@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import TodoListTemplate from './components/TodoListTemplate/TodoListTemplate'
 import Form from './components/TodoForm/TodoForm'
 import TodoItemList from './components/TodoItemList/TodoItemList';
@@ -29,20 +29,20 @@ const App = () => {
     }
   }
 
-  const handleColor = (id) => {
+  const handleColor = useCallback((id) => {
     setColor(colorArr[id].colorNum)
-  }
+  }, [colorArr])
 
-  const handleCreate = () => {
+  const handleCreate = useCallback(() => {
     const newTodo = {
       id: id, text: input, color: color, checked: false
     }
     setTodos([...todos, newTodo])
     setId(id + 1)
     console.log(todos)
-  }
+  }, [color, id, input, todos])
 
-  const handleToggle = (id) => {
+  const handleToggle = useCallback((id) => {
     const index = todos.findIndex(todo => todo.id === id);
     const selected = todos[index]
     const nextTodos = [...todos];
@@ -51,11 +51,11 @@ const App = () => {
       checked: !selected.checked
     };
     setTodos(nextTodos)
-  }
+  }, [todos])
 
-  const handleRemove = (id) => {
+  const handleRemove = useCallback((id) => {
     setTodos(todos.filter(todo => todo.id !== id))
-  }
+  }, [todos])
 
   return (
     <TodoListTemplate palette={(

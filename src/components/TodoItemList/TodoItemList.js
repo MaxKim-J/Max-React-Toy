@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, memo } from 'react';
 import TodoItem from '../TodoItem/TodoItem'
 
 const TodoItemList = ({ todos, onToggle, onRemove }) => {
   useEffect(() => {
-    console.log(todos)
-  }, [todos]);
+    console.log("render")
+  });
 
   return (
     <div>
@@ -26,4 +26,4 @@ const TodoItemList = ({ todos, onToggle, onRemove }) => {
     </div>
   )
 }
-export default TodoItemList;
+export default memo(TodoItemList);
