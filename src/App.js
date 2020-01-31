@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate/TodoListTemplate'
 import Form from './components/TodoForm/TodoForm'
-import TodoItemList from './components/TodoItemList/TodoItemList';
 import TodoPalette from './components/TodoPalette/TodoPalette';
-
+import TodoItemListContainer from "./containers/TodoItemListContainer"
 
 class App extends Component {
   id = 0
@@ -85,8 +84,6 @@ class App extends Component {
       handleChange,
       handleCreate,
       handleKeyPress,
-      handleToggle,
-      handleRemove,
       handleColor,
     } = this;
     return (
@@ -101,7 +98,7 @@ class App extends Component {
           onCreate={handleCreate}
         />
       )}>
-        <TodoItemList todos={todos} onToggle={handleToggle} onRemove={handleRemove} />
+        <TodoItemListContainer />
       </TodoListTemplate>
     )
   }
