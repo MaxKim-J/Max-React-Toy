@@ -1,4 +1,4 @@
-// ducks 패턴
+// ducks 패턴 구현
 
 // 액션 타입 정의 
 const CREATE_TODO = 'todo/CREATE_TODO'
@@ -14,7 +14,8 @@ export const removeTOdo = (id) => ({ type: REMOVE_TODO, id })
 const initialState = {
   todos: []
 }
-export default function todos(state = initialState, action) {
+export default function todo(state = initialState, action) {
+  const { todos } = state
   switch (action.type) {
     case CREATE_TODO:
       return {
@@ -26,8 +27,8 @@ export default function todos(state = initialState, action) {
         })
       }
     case TOGGLE_TODO:
-      const index = state.todos.findIndex(todo => todo.id === action.id);
-      const selected = state.todos[index];
+      const index = todos.findIndex(todo => todo.id === action.id);
+      const selected = todos[index];
       const nextTodos = [...todos];
       nextTodos[index].checked = !(selected.checked)
       return {
@@ -38,5 +39,6 @@ export default function todos(state = initialState, action) {
         todos: todos.filter(todo => todo.id !== action.id)
       }
     default:
+      return state
   }
 }

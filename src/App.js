@@ -77,7 +77,6 @@ class App extends Component {
     this.setState({
       color: colorArr[id].colorNum
     })
-    console.log(id)
   }
 
   render() {
