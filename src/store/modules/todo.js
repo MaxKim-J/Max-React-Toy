@@ -9,7 +9,7 @@ const REMOVE_TODO = 'todo/REMOVE_TODO'
 let id = 1;
 // 액션 생성 함수
 // 두번째 인자 함수는 payload creator
-export const createTodo = createAction(CREATE_TODO, text => ({ text, id: id++, checked: false }))
+export const createTodo = createAction(CREATE_TODO, (text, color) => ({ text, color, id: id++, checked: false }))
 export const toggleTodo = createAction(TOGGLE_TODO, id => id);
 export const removeTodo = createAction(REMOVE_TODO, id => id);
 
@@ -19,7 +19,8 @@ const initialState = {
     {
       id: 0,
       text: '자고싶다',
-      checked: true
+      checked: true,
+      color: '#f03e3e'
     }
   ]
 }
@@ -30,7 +31,8 @@ export default handleActions(
       todos: state.todos.concat({
         id: action.payload.id,
         text: action.payload.text,
-        checked: action.payload.checked
+        checked: action.payload.checked,
+        color: action.payload.color
       })
     }),
     [TOGGLE_TODO]: (state, action) => {

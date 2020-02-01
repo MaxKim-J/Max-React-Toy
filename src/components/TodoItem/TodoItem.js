@@ -9,7 +9,7 @@ class TodoItem extends Component {
 
   // 렌더 함수에 콘솔로그 집어넣어서 불필요한 타이밍에 렌더링되고 있는지 체크
   render() {
-    const { text, checked, id, onToggle, onRemove } = this.props;
+    const { text, checked, id, onToggle, onRemove, color } = this.props;
     return (
       <div className="todo-item" onClick={() => onToggle(id)}>
         <div className="remove" onClick={(e) => {
@@ -18,7 +18,7 @@ class TodoItem extends Component {
         }}>X
         </div>
         <div className={`todo-text ${checked ? ' checked' : ''}`}>
-          <div>{text}</div>
+          <div style={{ color: color }} > {text}</div>
         </div>
         {
           checked && (<div className="check-mark">●</div>)

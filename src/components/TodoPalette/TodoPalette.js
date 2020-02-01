@@ -2,17 +2,14 @@ import React, { Component } from 'react'
 import "./TodoPalette.css"
 
 class TodoPalette extends Component {
-
   state = {
     checkedIndex: 0
   }
-
   updateChecked(num) {
     this.setState({
       checkedIndex: num
     })
   }
-
   render() {
     const { onColor, colorArr } = this.props;
     const { checkedIndex } = this.state;
