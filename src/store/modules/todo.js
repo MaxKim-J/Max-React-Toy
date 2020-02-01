@@ -1,6 +1,5 @@
 // ducks 패턴 구현
 import { createAction, handleActions } from 'redux-actions'
-import TodoListTemplate from '../../components/TodoListTemplate/TodoListTemplate';
 
 // 액션 타입 정의 
 const CREATE_TODO = 'todo/CREATE_TODO'
@@ -16,12 +15,11 @@ export const removeTodo = createAction(REMOVE_TODO, id => id);
 
 // 초기 상태 정의
 const initialState = {
-  input: '',
   todos: [
     {
       id: 0,
-      text: '집에가기',
-      checked: false
+      text: '자고싶다',
+      checked: true
     }
   ]
 }
@@ -36,17 +34,21 @@ export default handleActions(
       })
     }),
     [TOGGLE_TODO]: (state, action) => {
-      const index = state.todos.findIndex(todo => todo.id === action.id);
-      const selected = state.todos[index];
-      const nextTodos = [...state.todos];
+      const { todos } = state
+      const index = todos.findIndex(todo => todo.id === action.payload);
+      const selected = todos[index];
+      const nextTodos = [...todos];
       nextTodos[index].checked = !(selected.checked)
       return {
         todos: nextTodos
       }
     },
-    [REMOVE_TODO]: (state, action) => ({
-      todos: state.todos.filter(todo => todo.id === action.payload.id)
-    })
+    [REMOVE_TODO]: (state, action) => {
+      const { todos } = state
+      return {
+        todos: todos.filter(todo => todo.id !== action.payload)
+      }
+    }
   },
   initialState
 )

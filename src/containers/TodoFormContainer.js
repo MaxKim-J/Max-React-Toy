@@ -1,32 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createTodo } from '../store/modules/todo'
-import { createStore } from 'redux';
+import "../components/TodoForm/TodoForm.css"
 
 class TodoFormContainer extends Component {
+  state = {
+    input: ''
+  }
+
   handleChange = (e) => {
+    const value = e.target.value
     this.setState({
-      input: e.target.value
+      input: value
     });
   }
 
-  handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      this.handleCreate();
-    }
-  }
-
-  handleCreate = (id, text, checked) => {
+  handleCreate = (text) => {
     const { createTodo } = this.props
-    createTodo(id, text, checked)
+    createTodo(text)
   }
 
   render() {
-    const { input } = this.props;
     return (
       <div className="form">
-        <input value={input} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
-        <div className="create-button" onClick={this.handleCreate}>
+        <input value={this.state.input} onChange={this.handleChange} onKeyPress={this.handleKeyPress} />
+        <div className="create-button" onClick={() => this.handleCreate(this.state.input)}>
           추가
       </div>
       </div>
@@ -35,13 +33,12 @@ class TodoFormContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  todos: state.todo.todos,
-  input: state.todo.input
+  todos: state.todo.todos
 })
 
 // 스토어의 리듀서 메소드 연동
 const mapDispatchToProps = dispatch => ({
-  createTodo: id => dispatch(createTodo(id)),
+  createTodo: text => dispatch(createTodo(text)),
 })
 
 export default connect(
