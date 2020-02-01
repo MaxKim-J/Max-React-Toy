@@ -1,14 +1,18 @@
 // ducks 패턴 구현
+import { createAction, handleActions } from 'redux-actions'
+import TodoListTemplate from '../../components/TodoListTemplate/TodoListTemplate';
 
 // 액션 타입 정의 
 const CREATE_TODO = 'todo/CREATE_TODO'
 const TOGGLE_TODO = 'todo/TOGGLE_TODO'
 const REMOVE_TODO = 'todo/REMOVE_TODO'
 
+let id = 1;
 // 액션 생성 함수
-export const createTodo = (id, text, checked) => ({ type: CREATE_TODO, id, text, checked })
-export const toggleTodo = (id) => ({ type: TOGGLE_TODO, id })
-export const removeTodo = (id) => ({ type: REMOVE_TODO, id })
+// 두번째 인자 함수는 payload creator
+export const createTodo = createAction(CREATE_TODO, text => ({ text, id: id++, checked: false }))
+export const toggleTodo = createAction(TOGGLE_TODO, id => id);
+export const removeTodo = createAction(REMOVE_TODO, id => id);
 
 // 초기 상태 정의
 const initialState = {
@@ -21,33 +25,28 @@ const initialState = {
     }
   ]
 }
-export default function todo(state = initialState, action) {
-  const { todos } = state
-  switch (action.type) {
-    case CREATE_TODO:
-      console.log(state)
-      return {
-        todos: todos.concat({
-          id: action.id,
-          text: action.text,
-          checked: action.checked
-        })
-      }
-    case TOGGLE_TODO:
-      console.log(state)
-      const index = todos.findIndex(todo => todo.id === action.id);
-      const selected = todos[index];
-      const nextTodos = [...todos];
+
+export default handleActions(
+  {
+    [CREATE_TODO]: (state, action) => ({
+      todos: state.todos.concat({
+        id: action.payload.id,
+        text: action.payload.text,
+        checked: action.payload.checked
+      })
+    }),
+    [TOGGLE_TODO]: (state, action) => {
+      const index = state.todos.findIndex(todo => todo.id === action.id);
+      const selected = state.todos[index];
+      const nextTodos = [...state.todos];
       nextTodos[index].checked = !(selected.checked)
       return {
         todos: nextTodos
       }
-    case REMOVE_TODO:
-      console.log(state)
-      return {
-        todos: todos.filter(todo => todo.id !== action.id)
-      }
-    default:
-      return state
-  }
-}
+    },
+    [REMOVE_TODO]: (state, action) => ({
+      todos: state.todos.filter(todo => todo.id === action.payload.id)
+    })
+  },
+  initialState
+)
